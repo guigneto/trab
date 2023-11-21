@@ -31,6 +31,7 @@ def estatisticas():
     l = []
     l2 = []
     maior = ""
+    
     with open("dados.bin","rb") as f:
         usuarios = pickle.load(f)
         conexoes = pickle.load(f)
@@ -43,17 +44,19 @@ def estatisticas():
         l.append((users,likes,nome,cidade,nasc))
     l = qsort(l)
 
-    # for i in l:
-    #     nome = i[2]
-    #     cidade = i[3]
-    #     if cidade != maior:
-    #         l2.append((maior,nome))
-    #         maior = cidade
+    for i in l:
+        nome = i[2]
+        cidade = i[3]
+        if cidade != maior:
+            maior = cidade
+            l2.append((maior,nome))
+    #print(l2)
 
     with open("top.txt","wt") as g:
-        for i in l:
-            users,likes,nome,cidade,nasc = i
-            g.write(f'{cidade} {users} {likes} {nome}\n')
+        for i in range(len(l2)-1):
+            cidade, nome = l2[i]
+            g.write(f'{cidade} {nome}\n')
+        g.write(f'{l2[-1][0]} {l2[-1][1]}') #pra nao dar uma linha a mais por conta do "\n"
     g.close()
     
 def main():
