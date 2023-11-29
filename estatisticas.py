@@ -1,8 +1,10 @@
+#Aluno: Guilherme Gomes de Faria Neto
+
 import pickle
 
 def anterior(tupla, pivot):
-    users,likes,nome,cidade,nasc = tupla
-    users2,likes2,nome2,cidade2,nasc2 = pivot
+    users,likes,cidade = tupla
+    users2,likes2,cidade2 = pivot
 
     if cidade < cidade2: return True
     if cidade > cidade2: return False
@@ -29,7 +31,6 @@ def qsort(l):
     
 def estatisticas():
     l = []
-    l2 = []
     maior = ""
     
     with open("dados.bin","rb") as f:
@@ -43,22 +44,18 @@ def estatisticas():
             nome, cidade, nasc = usuarios[users]
             gostei, gostaram, mutuos = conexoes[users]
             likes = len(gostaram) + len(mutuos)
-            l.append((users,likes,nome,cidade,nasc))
+            l.append((users,likes,cidade))
         l = qsort(l)
 
         for i in l:
-            nome = i[2]
-            cidade = i[3]
+            user = i[0]
+            nome = usuarios[user][0]
+            cidade = i[2]
             if cidade != maior:
                 maior = cidade
                 g.write(f'{maior} {nome}\n')
         
     g.close()
-
-        # for i in range(len(l2)-1):
-        #     cidade, nome = l2[i]
-        #     g.write(f'{cidade} {nome}\n')
-        # g.write(f'{l2[-1][0]} {l2[-1][1]}') #pra nao dar uma linha a mais por conta do "\n"
 
     
 def main():
